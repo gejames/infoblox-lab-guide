@@ -12,6 +12,7 @@ TIP: A video overivew  of the lab environment is available on link:https://www.y
 * Ability to deploy labs in the Red Hat Product Demo System (RHPDS)
 * A git repo, such as github or gitlab, you can use to store your code.
 * A general understanding of IPv4 subnetting is helpful, but not required to complete the lab.
+* Familiarity with Tower and Ansible are helpful
 
 == Topics covered
 
@@ -130,7 +131,7 @@ WARNING: You must run the following command in the terminal to activate the pyth
  `source /var/lib/awx/venv/nios/bin/activate`
 
 
-= Lab Example
+== Lab Example
 
 For this lab, we'll add a new container within 10.0.0/8.  Ansible will query NIOS for the next available container within a parent container and then create the container for us.  
 
@@ -139,32 +140,25 @@ Let's go back to vscode and create a playbook that adds a new network container 
 
 TIP: For this next step it does not matter if you are in the virtualenv or not.  
 
-You can store your code in any git repo, but for this lab we are going to use github.
+TIP: You can create your own git repo instead of using the sample repo.
 
-First, create a new repo. In this example the repo is public, but you can make it private if you wish.
+In the vscode terminal,  clone the repo.
 
-image::images/github-new-repo.png[]
+WARNING: Be sure to update the url with the correct URL if you created your own repo.
 
-Next, we'll sync the repo to the bastion.  In the terminal on the bastion enter the following commands. 
-
-WARNING: Be sure to update the url with the repo you just created.
-
-[source,bash]
+[source,shell]
 ----
 $ git clone https://github.com/gejames/nioslab.git
-Cloning into 'nioslab'...
-remote: Enumerating objects: 3, done.
-remote: Counting objects: 100% (3/3), done.
-remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
-Unpacking objects: 100% (3/3), done.
-
-[devops@bastion 0 ~]$ cd nioslab/
-[devops@bastion 0 ~/nioslab main ⭑|✔]$ 
+$ cd nioslab/
 ----
 
-In vscode, right click in the folder view on the nioslab folder and create a new file called `nios_network.yml`.
-Paste the following into the file.  If you want to test this from the bastion terminal, you can substitute the `nios_grid_*` variables with the vaules provided by the lab deployer.
+In the file explorer window in vscode, click on the net_network.yml file.  
 
+It should look like this.
+
+image::images/vscode-new-network-example.png[]
+
+For reference, the playbook is here: 
 [source, yaml]
 ----
 ---
@@ -198,16 +192,32 @@ Paste the following into the file.  If you want to test this from the bastion te
           password: {{ nios_grid_password }}
 ----
 
-It should like like this
+Now we can put the pieces together and add our playbook to Tower as a new project and Job Template.
 
-image::images/vscode-new-network-example.png[]
+Log back into Tower and navigate to Resources/Projects.  Click on the image:images/tower-plus.png[] symbol to create a new Project
 
+1. Give your project a name. NIOS Lab
+2. For SCM Type, use Git
+3. Paste in the URL for your repo.  https://github.com/gejames/nioslab.git
+4. Use /var/lib/awx/venv/nios for your ansible environment. This will become the Default for any jobs we create with this project.
+5. Save your project.
 
-Now we can commit our playbook to our repo.
-[source,shell]
-----
-$ git add .
-$ git commit -m 'my first nios playbook'
-----
+image::images\tower-new-project.png[]
 
+Next, go to Resources/Job Templates, and click on image:images/tower-plus.png[] to create a new Job Template
+
+1. Name your new job
+2. Job type is Run
+3. inventorry: nios
+4. Project: NIOS Lab
+5. Playbook: new_network.yml
+6. Credentials: nios creds.  
+
+image::images\tower-job-template.png[]
+
+WARNING: To pick `nios creds` you must first change the Credential Type to NIOS Custom Credentials.
+
+image::images\tower-job-cred-type.png[]
+
+Save your project by cliking the Save button.
 
