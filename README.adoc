@@ -1,10 +1,17 @@
 = Ansible Infoblox NIOS Lab Guide
+:source-highlighter: rouge
 
 Infoblox NIOS is the leading enterprise DNS, DHCP, IPAM (DDI) solution.  This guide will use the Ansible Infoblox NIOS Lab in RHDPS to demonstrate the automation of IP Administration with NIOS and the Red Hat Ansible Automation Platform.
 
 TIP: For a thorough description of lab environment, please refer to the AgnosticD config link:https://github.com/redhat-cop/agnosticd/tree/development/ansible/configs/ansible-infoblox[README]
 
-TIP: A video walkthrough of the lab is available on link:https://www.youtube.com/watch?v=86qaaHzw01Y[Youtube]
+TIP: A video overivew  of the lab environment is available on link:https://www.youtube.com/watch?v=86qaaHzw01Y[Youtube]
+
+== Prerequisites
+
+* Ability to deploy labs in the Red Hat Product Demo System (RHPDS)
+* A git repo, such as github or gitlab, you can use to store your code.
+* A general understanding of IPv4 subnetting is helpful, but not required to complete the lab.
 
 == Topics covered
 
@@ -22,7 +29,7 @@ This lab is deployed in RHDPS by the user or a lab instructor.  Once deployed, y
 === Lab Hosts:
 
 1. Infoblox NIOS 8.5.1
-2. RHEL 7 bastion running VSCode
+2. RHEL 7 bastion running vscode
 3. Ansible Tower 3.8
 
 ==== NIOS Initial Login
@@ -50,12 +57,12 @@ Close the Grid Setup Wizard
 image::images/infoblox-grid-wizard.png[]
 ---
 
-=== VSCode
+=== vscode
 
-VSCode is an easy to learn code editor.  It has support for many extensions, including Ansible code highlighitng.  This makes debugging Ansible much easier.  
+vscode is an easy to learn code editor.  It has support for many extensions, including Ansible code highlighitng.  This makes debugging Ansible much easier.  
 
 ---
-First, login to VSCode with the provided credentials
+First, login to vscode with the provided credentials
 
 image::images/vscode-login.png[]
 
@@ -67,15 +74,16 @@ image::images/vscode-open-folder1.png[]
 image::images/vscode-open-folder2.png[]
 
 ---
-We can open a Terminal right in VSCode. On the toolbar, go to Terminal, New Terminal. You can use this terminal to test playbooks before running them in Tower.
+We can open a Terminal right in vscode. On the toolbar, go to Terminal, New Terminal. You can use this terminal to test playbooks before running them in Tower.
 
 image::images/vscode-new-terminal.png[]
 
 === Ansible Tower 3.8
+---
 
 Ansible Tower is a powerful WEB UI for Ansible.  It provides RBAC, Scheduling, centralized logging of jobs, and many other benefits.
 
-The lab is pre-populatd Tower with several assets you will need to run jobs with NIOS.  Let's login to Tower and review before we run our first project.
+The lab pre-populatd Tower with several assets you will need to run jobs with NIOS.  Let's login to Tower and review before we start our first project.
 
 Login to Tower
 
@@ -96,7 +104,7 @@ Next, navigate to Resources, Credentials, then `nios creds`.  This is a credenti
 image::images/tower-creds.png[]
 
 ---
-Finally, navigate to Resources, Inventory, then `nios`.  This inventory is pre-populated with several important variables. We will use this our inventory for any jobs we create so the variable are automatically passed to our playbooks.
+Finally, navigate to Resources, Inventory, then `nios`.  This inventory is pre-populated with several important variables. We will use this for our inventory for any jobs we create so the variables are automatically passed to our playbooks.
 
 [options="header,footer"]
 |=======================
@@ -109,5 +117,109 @@ Finally, navigate to Resources, Inventory, then `nios`.  This inventory is pre-p
 
 
 image::images/tower-inventory.png[]
+
+== NIOS Primer
+
+NIOS has two primary network object types. Containers and Networks. Containers are special objects in NIOS that can be further divided. These divisions help to ogranize the IP addresses within NIOS.  We can create containers within containers, or create network objects, assign hosts, etc.  Network objects can have DHCP scopes assigned to them and cannot be further subnetted.
+
+For instance, many organizations use RFC1918 IP addresses for their internal IP space.  We can use Ansible to create a 10.0.0.0/8 container in NIOS for us and then further divide that as needed.  In fact, when you logged into NIOS you have may have noticed that the 10.0.0.0/8 container was already there.  It was added during lab deployment.  
+
+NIOS is configured via an API. In order for our bastion and Tower to communicate with this API, we need the `infoblox-client` python library installed. To avoid python incompatibiltity issues, this has been done for you in a python virtual environment.  In Tower, we'll use this python environment for all our jobs. This will be covered later. 
+
+WARNING: You must run the following command in the terminal to activate the python virtual environment on the bastion:  
+ `source /var/lib/awx/venv/nios/bin/activate`
+
+
+= Lab Example
+
+For this lab, we'll add a new container within 10.0.0/8.  Ansible will query NIOS for the next available container within a parent container and then create the container for us.  
+
+Let's go back to vscode and create a playbook that adds a new network container to NIOS.  
+
+
+TIP: For this next step it does not matter if you are in the virtualenv or not.  
+
+You can store your code in any git repo, but for this lab we are going to use github.
+
+First, create a new repo. In this example the repo is public, but you can make it private if you wish.
+
+image::images/github-new-repo.png[]
+
+Next, we'll sync the repo to the bastion.  In the terminal on the bastion enter the following commands. 
+
+WARNING: Be sure to update the url with the repo you just created.
+
+[source,bash]
+----
+$ git clone https://github.com/gejames/nioslab.git
+Cloning into 'nioslab'...
+remote: Enumerating objects: 3, done.
+remote: Counting objects: 100% (3/3), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), done.
+
+[devops@bastion 0 ~]$ cd nioslab/
+[devops@bastion 0 ~/nioslab main ⭑|✔]$ 
+----
+
+In vscode, right click in the folder view on the nioslab folder and create a new file called `nios_network.yml`.
+Paste the following into the file.  If you want to test this from the bastion terminal, you can substitute the `nios_grid_*` variables with the vaules provided by the lab deployer.
+
+[source, yaml]
+----
+---
+- name: configure nios for lab
+  hosts: localhost
+  gather_facts: false
+  become: false
+
+  vars:
+    parent_container: 10.0.0/8
+    nios_provider:
+        host: "{{ nios_grid_url }}"
+        username: "{{ nios_grid_username }}"
+        password: "{{ nios_grid_password }}"
+  
+  tasks: 
+  
+    - name: return next available network
+      set_fact:
+        networkaddr: "{{ lookup('infoblox.nios_modules.nios_next_network', parent_container, cidr=cidr, provider=nios_provider) }}"
+
+    - name: configure a network container in nios
+      nios_network:
+        network: {{ networkaddr }}
+        container: true
+        comment: Created by Ansible NIOS Lab deployment
+        state: present
+        provider:
+          host: {{ nios_grid_url }}
+          username: {{ nios_grid_admin }}
+          password: {{ nios_grid_password }}
+----
+
+It should like like this
+
+image::images/vscode-new-network-example.png[]
+
+
+Now we can commit our playbook to our repo.
+[source,bash]
+----
+$ git add .
+$ git commit -m 'my first nios playbook'
+[main bfeee43] my first nios playbook
+ 1 file changed, 29 insertions(+)
+ create mode 100644 new_network.yml
+[devops@bastion 0 ~/nioslab main ↑·1|✔]$ git push
+Counting objects: 4, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 653 bytes | 0 bytes/s, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To https://github.com/gejames/nioslab.git
+   7c343c0..bfeee43  main -> main
+$ 
+----
 
 
