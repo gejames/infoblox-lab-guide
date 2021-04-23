@@ -17,7 +17,7 @@ TIP: A video walkthrough of the lab is available on link:https://www.youtube.com
 
 == Lab Overview
 
-This lab is deployed in RHDPS by the user or a lab instructor.  Once deployed, you will recieve login credentials for each host in the lab.  Each host can be accessed via a URL and has HTTPS and SSH open to the Intneret.  For this guide, we will be ccessing the hosts by HTTPS.
+This lab is deployed in RHDPS by the user or a lab instructor.  Once deployed, you will recieve login credentials for each host in the lab.  Each host can be accessed via a URL and has HTTPS and SSH open to the Intneret.  For this guide, we will be accessing the hosts by HTTPS. We'll start by logging into each host to verify connectivity and understand the lab environment.
 
 === Lab Hosts:
 
@@ -30,7 +30,7 @@ This lab is deployed in RHDPS by the user or a lab instructor.  Once deployed, y
 The lab deploys NIOS with several temporary licenses.  On initial login, you will need to accept a EULA, Opt in/out of a customer experience program, and finally, close out a Grid Setup Wizard.  
 
 ---
-Login
+Login to NIOS
 
 image::images/infoblox-grid-login.png[]
 
@@ -67,11 +67,47 @@ image::images/vscode-open-folder1.png[]
 image::images/vscode-open-folder2.png[]
 
 ---
-We can open a Terminal right in VSCode. On the toolbar, go to Terminal, New Terminal.
+We can open a Terminal right in VSCode. On the toolbar, go to Terminal, New Terminal. You can use this terminal to test playbooks before running them in Tower.
 
 image::images/vscode-new-terminal.png[]
 
 === Ansible Tower 3.8
 
+Ansible Tower is a powerful WEB UI for Ansible.  It provides RBAC, Scheduling, centralized logging of jobs, and many other benefits.
+
+The lab is pre-populatd Tower with several assets you will need to run jobs with NIOS.  Let's login to Tower and review before we run our first project.
+
+Login to Tower
+
+image::images/tower-login.png[]
+
+---
+Once logged in, use the left hand navigation pane to select Administration, then Custom Credentials.  Then choose NIOS Custom Credentials
+
+This Custom Credential allows us to pass `nios_grid_username` and `nios_grid_password` to our playbooks as extra vars.  This will be covered in more depth later in the guide.
+
+For now, just be aware that these variables are defined in the custom credential
+
+image::images/tower-custom-creds.png[] 
+
+---
+Next, navigate to Resources, Credentials, then `nios creds`.  This is a credential of type `NIOS Custom Credentials` that has the NIOS username and password already defined. We'll use this as our credential in any Job Templates we create.
+
+image::images/tower-creds.png[]
+
+---
+Finally, navigate to Resources, Inventory, then `nios`.  This inventory is pre-populated with several important variables. We will use this our inventory for any jobs we create so the variable are automatically passed to our playbooks.
+
+[options="header,footer"]
+|=======================
+|Variable           |Definition 
+|wapi_version       | defaults to 2.11.1 
+|ansible_python_interpreter |/usr/bin/python3 
+|nios_grid_url      |public url used for API calls 
+|nios_grid_ip       |private IP of the NIOS server 
+|=======================
+
+
+image::images/tower-inventory.png[]
 
 
