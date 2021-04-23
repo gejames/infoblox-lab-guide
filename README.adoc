@@ -204,22 +204,10 @@ image::images/vscode-new-network-example.png[]
 
 
 Now we can commit our playbook to our repo.
-[source,bash]
+[source,shell]
 ----
 $ git add .
 $ git commit -m 'my first nios playbook'
-[main bfeee43] my first nios playbook
- 1 file changed, 29 insertions(+)
- create mode 100644 new_network.yml
-[devops@bastion 0 ~/nioslab main ↑·1|✔]$ git push
-Counting objects: 4, done.
-Delta compression using up to 2 threads.
-Compressing objects: 100% (3/3), done.
-Writing objects: 100% (3/3), 653 bytes | 0 bytes/s, done.
-Total 3 (delta 0), reused 0 (delta 0)
-To https://github.com/gejames/nioslab.git
-   7c343c0..bfeee43  main -> main
-$ 
 ----
 
 
