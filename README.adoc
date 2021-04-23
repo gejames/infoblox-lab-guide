@@ -4,10 +4,7 @@ Infoblox NIOS is the leading enterprise DNS, DHCP, IPAM (DDI) solution.  This gu
 
 TIP: For a thorough description of lab environment, please refer to the AgnosticD config link:https://github.com/redhat-cop/agnosticd/tree/development/ansible/configs/ansible-infoblox[README]
 
-=== Video walkthrough
-
-video::86qaaHzw01Y[youtube]
-
+TIP: A video walkthrough of the lab is available on link:https://www.youtube.com/watch?v=86qaaHzw01Y[Youtube]
 
 == Topics covered
 
@@ -32,22 +29,49 @@ This lab is deployed in RHDPS by the user or a lab instructor.  Once deployed, y
 
 The lab deploys NIOS with several temporary licenses.  On initial login, you will need to accept a EULA, Opt in/out of a customer experience program, and finally, close out a Grid Setup Wizard.  
 
+---
 Login
 
 image::images/infoblox-grid-login.png[]
 
+---
 Accpet the EULA
 
 image::images/infoblox-grid-eula.png[]
 
+---
 Opt in/out of the customer experience program
 
 image::images/infoblox-grid-cep.png[]
 
+---
 Close the Grid Setup Wizard
 
 image::images/infoblox-grid-wizard.png[]
+---
 
-==== VSCode
+=== VSCode
+
+VSCode is an easy to learn code editor.  It has support for many extensions, including Ansible code highlighitng.  This makes debugging Ansible much easier.  
+
+---
+First, login to VSCode with the provided credentials
+
+image::images/vscode-login.png[]
+
+---
+Next, open the /home/devops folder
+
+image::images/vscode-open-folder1.png[]
+
+image::images/vscode-open-folder2.png[]
+
+---
+We can open a Terminal right in VSCode. On the toolbar, go to Terminal, New Terminal.
+
+image::images/vscode-new-terminal.png[]
+
+=== Ansible Tower 3.8
+
 
 
