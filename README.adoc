@@ -4,6 +4,10 @@ Infoblox NIOS is the leading enterprise DNS, DHCP, IPAM (DDI) solution.  This gu
 
 TIP: For a thorough description of lab environment, please refer to the AgnosticD config link:https://github.com/redhat-cop/agnosticd/tree/development/ansible/configs/ansible-infoblox[README]
 
+=== Video walkthrough
+
+video::86qaaHzw01Y[youtube]
+
 
 == Topics covered
 
