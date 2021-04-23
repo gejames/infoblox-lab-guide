@@ -24,18 +24,26 @@ This lab is deployed in RHDPS by the user or a lab instructor.  Once deployed, y
 2. RHEL 7 bastion running VSCode
 3. Ansible Tower 3.8
 
-==== NIOS
+==== NIOS Initial Login
 
-The lab deploys NIOS with several temporary licenses.  On initial login, you will need to accept a EULA, Opt in/out of a customer experience program, and finally, close out a Grid Setup Wizard.
+The lab deploys NIOS with several temporary licenses.  On initial login, you will need to accept a EULA, Opt in/out of a customer experience program, and finally, close out a Grid Setup Wizard.  
 
-1.  Login
-
-
+Login
 
 image::images/infoblox-grid-login.png[]
 
+Accpet the EULA
 
+image::images/infoblox-grid-eula.png[]
 
+Opt in/out of the customer experience program
 
+image::images/infoblox-grid-cep.png[]
+
+Close the Grid Setup Wizard
+
+image::images/infoblox-grid-wizard.png[]
+
+==== VSCode
 
 
