@@ -32,7 +32,7 @@ The lab deploys NIOS with several temporary licenses.  On initial login, you wil
 
 
 
-image:: images/infoblox-grid-login.png[]
+image::images/infoblox-grid-login.png[]
 
 
 
