@@ -1,0 +1,41 @@
+= Ansible Infoblox NIOS Lab Guide
+
+Infoblox NIOS is the leading enterprise DNS, DHCP, IPAM (DDI) solution.  This guide will use the Ansible Infoblox NIOS Lab in RHDPS to demonstrate the automation of IP Administration with NIOS and the Red Hat Ansible Automation Platform.
+
+TIP: For a thorough description of lab environment, please refer to the AgnosticD config link:https://github.com/redhat-cop/agnosticd/tree/development/ansible/configs/ansible-infoblox[README]
+
+
+== Topics covered
+
+1. Lab overview
+2. Initial login to NIOS
+3. Overview of the Ansible Tower environment
+4. Sample playbook
+5. Deploying a project in Ansible Tower
+6. Verifying changes in NIOS
+
+== Lab Overview
+
+This lab is deployed in RHDPS by the user or a lab instructor.  Once deployed, you will recieve login credentials for each host in the lab.  Each host can be accessed via a URL and has HTTPS and SSH open to the Intneret.  For this guide, we will be ccessing the hosts by HTTPS.
+
+=== Lab Hosts:
+
+1. Infoblox NIOS 8.5.1
+2. RHEL 7 bastion running VSCode
+3. Ansible Tower 3.8
+
+==== NIOS
+
+The lab deploys NIOS with several temporary licenses.  On initial login, you will need to accept a EULA, Opt in/out of a customer experience program, and finally, close out a Grid Setup Wizard.
+
+1.  Login
+
+
+
+image:: images/infoblox-grid-login.png[]
+
+
+
+
+
+
