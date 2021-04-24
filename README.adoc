@@ -158,41 +158,19 @@ It should look like this.
 
 image::images/vscode-new-network-example.png[]
 
-For reference, the playbook is here: 
-[source, yaml]
-----
----
-- name: configure nios for lab
-  hosts: localhost
-  gather_facts: false
-  become: false
+Next, take note of the `collections/requirements.yml` file. This file will be used be Tower to download the infoblox.nios_modules collection. Be sure to inlude this file in any projects you create.
 
-  vars:
-    parent_container: 10.0.0/8
-    nios_provider:
-        host: "{{ nios_grid_url }}"
-        username: "{{ nios_grid_username }}"
-        password: "{{ nios_grid_password }}"
-  
-  tasks: 
-  
-    - name: return next available network
-      set_fact:
-        networkaddr: "{{ lookup('infoblox.nios_modules.nios_next_network', parent_container, cidr=cidr, provider=nios_provider) }}"
+[source,yaml]
 
-    - name: configure a network container in nios
-      nios_network:
-        network: {{ networkaddr }}
-        container: true
-        comment: Created by Ansible NIOS Lab deployment
-        state: present
-        provider:
-          host: {{ nios_grid_url }}
-          username: {{ nios_grid_admin }}
-          password: {{ nios_grid_password }}
-----
+collections:
+  - infoblox.nios_modules
 
-Now we can put the pieces together and add our playbook to Tower as a new project and Job Template.
+
+
+
+NOTE: For reference, the repo is link:https://github.com/gejames/nioslab/[here]
+
+Now we can put the pieces together and add our playbook to Tower as a new Project and Job Template.
 
 Log back into Tower and navigate to Resources/Projects.  Click on the image:images/tower-plus.png[] symbol to create a new Project
 
@@ -204,7 +182,8 @@ Log back into Tower and navigate to Resources/Projects.  Click on the image:imag
 
 image::images\tower-new-project.png[]
 
-Next, go to Resources/Job Templates, and click on image:images/tower-plus.png[] to create a new Job Template
+
+Next, go to Resources/Templates, and click on image:images/tower-plus.png[] to create a new Job Template
 
 1. Name your new job
 2. Job type is Run
@@ -213,11 +192,45 @@ Next, go to Resources/Job Templates, and click on image:images/tower-plus.png[] 
 5. Playbook: new_network.yml
 6. Credentials: nios creds.  
 
+Save your project by cliking the Save button.
+
 image::images\tower-job-template.png[]
 
-WARNING: To pick `nios creds` you must first change the Credential Type to NIOS Custom Credentials.
 
-image::images\tower-job-cred-type.png[]
 
-Save your project by cliking the Save button.
+WARNING: To pick `nios creds` you must first change the Credential Type to NIOS Custom Credentials. image:images\tower-job-cred-type.png[]
+
+---
+Press the Launch button to start your job.
+
+
+First, The playbook will reach out to NIOS and ask for the next available network in the defined parent container. cidr is a variable that defines what size subnet we want the container to be.  Due to the way cidr notiation works, this number must be larger then the container cidr.  In thise case the parent container is a /8 and we are asking for a /16. 
+
+[source,yaml]
+
+vars:
+   parent_container: 10.0.0.0/8
+   cidr: 16
+
+[source,yaml]  
+- name: return next available network
+      set_fact:
+        networkaddr: "{{ lookup('infoblox.nios_modules.nios_next_network', parent_container, cidr=cidr, provider=nios_provider) }}"
+
+The next available network will be returned in cidr notation, for example 10.0.0.0/16
+
+Then, it  will use the `infoblox.nios_modules.nios_network` module to creat that container.
+
+[source,yaml]
+ - name: configure a network container in nios
+      infoblox.nios_modules.nios_network:
+        network: "{{ networkaddr[0] }}"
+        container: true
+        comment: Created by Ansible NIOS Lab deployment
+        state: present
+        provider: "{{ nios_provider }}"
+
+
+Login back into NIOS to verify the changes.
+
 
