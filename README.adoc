@@ -176,7 +176,7 @@ collections:
 IMPORTANT: Be sure to include this file in any projects you create.
 
 ---
-___
+
 
 Now we can put the pieces together and add our playbook to Tower as a new Project and Job Template.
 
@@ -190,6 +190,7 @@ Log back into Tower and navigate to Resources/Projects.  Click on the image:imag
 
 image::images\tower-new-project.png[]
 
+---
 
 Next, go to Resources/Templates, and click on image:images/tower-plus.png[] to create a new Job Template.
 
@@ -237,13 +238,11 @@ The playbook will then use the `infoblox.nios_modules.nios_network` module to cr
         state: "{{ nios_state }}"
         provider: "{{ nios_provider }}"
 
-___
+---
 
 Navigate back to Infoblox NIOS.  On the Data Management tab, you should see the new container.
 
 image::images\infoblox-grid-example.png[]
-
-___
 
 == Conclusion
 
