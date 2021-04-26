@@ -169,13 +169,13 @@ collections:
 
 NOTE: For reference, the repo is link:https://github.com/gejames/infoblox-lab-guide[here]
 
-Now we can put the pieces together and add our playbook to Tower as a new Project and Job Template.
+Next, we can put the pieces together and add our playbook to Tower as a new Project and Job Template.
 
 Log back into Tower and navigate to Resources/Projects.  Click on the image:images/tower-plus.png[] symbol to create a new Project
 
 1. Give your project a name. NIOS Lab
 2. For SCM Type, use Git
-3. Paste in the URL for your repo.  https://github.com/gejames/nioslab.git
+3. Paste in the URL for your repo. https://github.com/gejames/infoblox-lab-guide.git
 4. Use /var/lib/awx/venv/nios for your ansible environment. This will become the Default for any jobs we create with this project.
 5. Save your project.
 
@@ -188,7 +188,7 @@ Next, go to Resources/Templates, and click on image:images/tower-plus.png[] to c
 2. Job type is Run
 3. inventorry: nios
 4. Project: NIOS Lab
-5. Playbook: new_container.yml
+5. Playbook: new_network.yml
 6. Credentials: nios creds.  
 
 Save your project by cliking the Save button.
@@ -202,7 +202,7 @@ WARNING: To pick `nios creds` you must first change the Credential Type to NIOS 
 ---
 Press the Launch button to start your job.
 
-First, The playbook will reach out to NIOS and ask for the next available network in the defined parent container. cidr is a variable that defines what size subnet we want the container to be.  Due to the way cidr notiation works, this number must be larger then the container cidr.  In thise case the parent container is a /8 and we are asking for a /16. 
+First, The playbook will reach out to NIOS and ask for the next available network in the defined parent container. `cidr` is a variable that defines what size subnet we want the container to be.  Due to the way cidr notiation works, this number must be larger then the container cidr.  In thise case the parent container is a /8 and we are asking for a /16. 
 
 [source,yaml]
 
@@ -217,7 +217,7 @@ vars:
 
 The next available network will be returned in cidr notation, for example 10.0.0.0/16
 
-The playbook will then use the `infoblox.nios_modules.nios_network` module to creat that container.
+The playbook will then use the `infoblox.nios_modules.nios_network` module to create that container.
 
 [source,yaml]
  - name: configure a network container in nios
@@ -228,7 +228,11 @@ The playbook will then use the `infoblox.nios_modules.nios_network` module to cr
         state: present
         provider: "{{ nios_provider }}"
 
-Now that we know how to create a new container in NIOS with Ansible, let's give that ability to a junior admin. They aren't entrusted with the keys to the kingdom yet, so we'll put some constraints around them and allow them to create new NIOS containers or networks through a Tower survey.
+Now that we know how to create a new container in NIOS with Ansible, let's give that ability to a junior admin. They aren't trusted with the keys to the kingdom yet, so we'll put some constraints around them and allow them to create new NIOS containers or network through a Tower survey.
 
-We can add a survey to our existing job. We just need to change the playbook in our job from new_network.yml to 
+Add a survey to your exsting job.  An example survey is shown below.
+
+image::images\tower-survey.png[]
+
+
  
