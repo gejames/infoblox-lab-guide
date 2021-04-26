@@ -148,7 +148,9 @@ It should look like this.
 image::images/vscode-new-network-example.png[]
 
 
-In order to pass credentials to NIOS, we define a dictionary called `nios_provider`.  In Tower, we pass the NIOS url, username, and password to our playbook from the `nios creds` credentials and `nios` inventory extra vars.
+In order to pass credentials to NIOS, we define a dictionary called `nios_provider`.  
+
+In Tower, we pass the NIOS url, username, and password to our playbook from the `nios creds` credentials and `nios` inventory extra vars.
 
 [source,yaml]
 nios_provider:
