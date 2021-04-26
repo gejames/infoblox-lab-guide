@@ -147,8 +147,8 @@ WARNING: Be sure to update the playbook with the correct url if you created your
 
 [source,shell]
 ----
-$ git clone https://github.com/gejames/nioslab.git
-$ cd nioslab/
+$ git clone https://github.com/gejames/infoblox-lab-guide.git
+$ cd infoblox-lab-guide/
 ----
 
 In the file explorer window in vscode, click on the new_network.yml file.  
