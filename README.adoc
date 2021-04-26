@@ -198,7 +198,7 @@ image::images\tower-job-template.png[]
 
 
 
-WARNING: To pick `nios creds` you must first change the Credential Type to NIOS Custom Credentials. 
+WARNING: To pick `nios creds` you must first change the `Credential Type` to `NIOS Custom Credentials`. 
 
 ---
 Press the Launch button to start your job.
@@ -221,12 +221,12 @@ The next available network will be returned in cidr notation, for example, 10.0.
 The playbook will then use the `infoblox.nios_modules.nios_network` module to create that container.
 
 [source,yaml]
- - name: configure a network container in nios
+- name: configure a network container in nios
       infoblox.nios_modules.nios_network:
         network: "{{ networkaddr[0] }}"
-        container: true
-        comment: Created by Ansible NIOS Lab deployment
-        state: present
+        container: " {{ nios_container }}"
+        comment: "{{ nios_comment }]"
+        state: "{{ nios_state }}"
         provider: "{{ nios_provider }}"
 
 ___
