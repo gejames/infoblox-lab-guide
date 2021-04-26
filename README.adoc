@@ -167,7 +167,7 @@ collections:
 
 
 
-NOTE: For reference, the repo is link:https://github.com/gejames/nioslab/[here]
+NOTE: For reference, the repo is link:https://github.com/gejames/infoblox-lab-guide[here]
 
 Now we can put the pieces together and add our playbook to Tower as a new Project and Job Template.
 
