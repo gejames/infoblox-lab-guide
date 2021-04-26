@@ -1,17 +1,17 @@
 = Ansible Infoblox NIOS Lab Guide
 :source-highlighter: rouge
 
-Infoblox NIOS is the leading enterprise DNS, DHCP, IPAM (DDI) solution.  This guide will use the Ansible Infoblox NIOS Lab in RHDPS to demonstrate the automation of IP Administration with NIOS and the Red Hat Ansible Automation Platform.
+Infoblox NIOS is the leading enterprise DNS, DHCP, IPAM (DDI) solution.  This guide will use the `Ansible 2.9 Infoblox NIOS 8.5.1 Lab` in RHDPS to demonstrate the automation of IP Administration with NIOS and the Red Hat Ansible Automation Platform.
 
 TIP: For a thorough description of the lab environment, please refer to the AgnosticD config link:https://github.com/redhat-cop/agnosticd/tree/development/ansible/configs/ansible-infoblox[README]
 
-TIP: A video overivew  of the lab environment is available on link:https://www.youtube.com/watch?v=86qaaHzw01Y[Youtube]
+TIP: A video overview of the lab environment is available on link:https://www.youtube.com/watch?v=86qaaHzw01Y[Youtube]
 
 == Prerequisites
 
 * Ability to deploy labs in the Red Hat Product Demo System (RHPDS)
 * A general understanding of IPv4 subnetting is helpful, but not required to complete the lab
-* Familiarity with Tower and Ansible are helpful
+* Familiarity with Tower and Ansible is helpful
 
 == Topics covered
 
@@ -24,7 +24,7 @@ TIP: A video overivew  of the lab environment is available on link:https://www.y
 
 == Lab Overview
 
-This lab is deployed in RHDPS by the user or a lab instructor.  Once deployed, you will recieve login credentials for each host in the lab.  Each host can be accessed via a URL and has https and ssh open to the Intneret.  For this guide, we will be accessing the hosts by https. We'll start by logging into each host to verify connectivity and understand the lab environment.
+This lab is deployed in RHDPS by the user or a lab instructor.  Once deployed, you will receive login credentials for each host in the lab.  Each host can be accessed via a url and has https and ssh open to the Internet.  For this guide, we will be accessing the hosts by https. We'll start by logging into each host to verify connectivity and understand the lab environment.
 
 === Lab Hosts:
 
@@ -42,7 +42,7 @@ Login to NIOS by opening the url providing by the lab deployment.
 image::images/infoblox-grid-login.png[]
 
 ---
-Accpet the EULA
+Accept the EULA
 
 image::images/infoblox-grid-eula.png[]
 
@@ -59,7 +59,7 @@ image::images/infoblox-grid-wizard.png[]
 
 === vscode
 
-vscode is an easy to learn code editor.  It has support for many extensions, including Ansible code highlighitng.  This makes debugging Ansible much easier.  
+vscode is an easy-to-learn code editor.  It has support for many extensions, including Ansible code highlighting. This makes debugging Ansible much easier.  
 
 ---
 First, login to vscode with the provided credentials
@@ -83,14 +83,14 @@ image::images/vscode-new-terminal.png[]
 
 Ansible Tower is a powerful WEB UI for Ansible.  It provides role-based access control, scheduling, centralized logging of jobs, and many other benefits.
 
-Tower is pre-populatd with several assets you will need to run jobs with NIOS.  Let's login to Tower and review before we start our first project.
+Tower is pre-populated with several assets you will need to run jobs with NIOS.  Let's login to Tower and review before we start our first project.
 
 Login to Tower
 
 image::images/tower-login.png[]
 
 ---
-Once logged in, use the left hand navigation pane to select Administration, then Custom Credentials.  Then choose NIOS Custom Credentials
+Once logged in, use the left-hand navigation pane to select Administration, then Custom Credentials.  Then choose NIOS Custom Credentials
 
 This Custom Credential allows us to pass `nios_grid_username` and `nios_grid_password` to our playbooks as extra vars.  This will be covered in more depth later in the guide.
 
@@ -120,11 +120,11 @@ image::images/tower-inventory.png[]
 
 == NIOS Primer
 
-NIOS has two primary network object types. Containers and Networks. Containers are special objects in NIOS that can be further divided. These divisions help to ogranize the IP addresses within NIOS.  We can create containers within containers, or create network objects, assign hosts, etc.  Network objects can have DHCP scopes assigned to them and cannot be further subnetted.
+NIOS has two primary network object types. Containers and Networks. Containers are special objects in NIOS that can be further divided. These divisions help to organize the IP addresses within NIOS.  We can create containers within containers, or create network objects, assign hosts, etc.  Network objects can have DHCP scopes assigned to them and cannot be further subnetted.
 
 For instance, many organizations use RFC1918 IP addresses for their internal IP space.  We can use Ansible to create a 10.0.0.0/8 container in NIOS for us and then further divide that as needed.  In fact, when you logged into NIOS you have may have noticed that the 10.0.0.0/8 container was already there.  It was added during lab deployment.  
 
-NIOS is configured via an API. In order for our bastion and Tower to communicate with this API, we need the `infoblox-client` python library installed. To avoid python incompatibiltity issues, this has been done for you in a python virtual environment.  In Tower, we'll use this python environment for all our jobs. This will be covered later. 
+NIOS is configured via an API. In order for our bastion and Tower to communicate with this API, we need the `infoblox-client` python library installed. To avoid python incompatibility issues, this has been done for you in a python virtual environment.  In Tower, we'll use this python environment for all our jobs. This will be covered later. 
 
 WARNING: You must run the following command in the terminal to activate the python virtual environment on the bastion:  
  `source /var/lib/awx/venv/nios/bin/activate`
@@ -157,14 +157,12 @@ It should look like this.
 
 image::images/vscode-new-network-example.png[]
 
-Next, take note of the `collections/requirements.yml` file. This file will be used be Tower to download the infoblox.nios_modules collection. Be sure to inlude this file in any projects you create.
+Next, take note of the `collections/requirements.yml` file. This file will be used be Tower to download the infoblox.nios_modules collection. Be sure to include this file in any projects you create.
 
 [source,yaml]
 
 collections:
   - infoblox.nios_modules
-
-
 
 
 NOTE: For reference, the repo is link:https://github.com/gejames/infoblox-lab-guide[here]
@@ -186,7 +184,7 @@ Next, go to Resources/Templates, and click on image:images/tower-plus.png[] to c
 
 1. Name your new job
 2. Job type is Run
-3. inventorry: nios
+3. inventory: nios
 4. Project: NIOS Lab
 5. Playbook: new_network.yml
 6. Credentials: nios creds.  
@@ -202,7 +200,7 @@ WARNING: To pick `nios creds` you must first change the Credential Type to NIOS 
 ---
 Press the Launch button to start your job.
 
-First, The playbook will reach out to NIOS and ask for the next available network in the defined parent container. `cidr` is a variable that defines what size subnet we want the container to be.  Due to the way cidr notiation works, this number must be larger then the container cidr.  In thise case the parent container is a /8 and we are asking for a /16. 
+First, The playbook will reach out to NIOS and ask for the next available network in the defined parent container. `cidr` is a variable that defines what size subnet we want the container to be.  Due to the way cidr notation works, this number must be larger than the container cidr.  In this case the parent container is a /8 and we are asking for a /16. 
 
 [source,yaml]
 
@@ -215,7 +213,7 @@ vars:
       set_fact:
         networkaddr: "{{ lookup('infoblox.nios_modules.nios_next_network', parent_container, cidr=cidr, provider=nios_provider) }}"
 
-The next available network will be returned in cidr notation, for example 10.0.0.0/16
+The next available network will be returned in cidr notation, for example, 10.0.0.0/16
 
 The playbook will then use the `infoblox.nios_modules.nios_network` module to create that container.
 
