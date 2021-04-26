@@ -75,7 +75,7 @@ image::images/vscode-new-terminal.png[]
 ---
 === Ansible Tower 3.8
 
-Ansible Tower is a powerful web UI for Ansible.  It provides role-based access control, scheduling, centralized logging of jobs, and many other benefits.
+Ansible Tower is a powerful web UI and API for Ansible.  It provides role-based access control, scheduling, centralized logging, and many other benefits.
 
 Tower is pre-populated with several assets you will need to run jobs with NIOS.  Let's login to Tower and review before we start our first project.
 
@@ -119,7 +119,7 @@ NIOS has two primary network object types. Containers and Networks. Containers a
 
 For instance, many organizations use RFC1918 IP addresses for their internal IP space.  We can use Ansible to create a 10.0.0.0/8 container in NIOS for us and then further divide that as needed.  In fact, when you logged into NIOS you have may have noticed that the 10.0.0.0/8 container was already there.  It was added during lab deployment.  
 
-NIOS is configured via an API. In order for our bastion and Tower to communicate with this API, we need the `infoblox-client` python library installed. To avoid python incompatibility issues, this has been done for you in a python virtual environment.  In Tower, we'll use this python environment for all our jobs. This will be covered later. 
+NIOS is configured via an API. In order for our bastion and Tower to communicate with this API, we need the `infoblox-client` python library installed. To avoid python incompatibility issues, this has been done for you in a python virtual environment.  In Tower, we'll use this python environment for all our jobs. 
 
 IMPORTANT: You must run the following command in the terminal to activate the python virtual environment on the bastion:  
  `source /var/lib/awx/venv/nios/bin/activate`
