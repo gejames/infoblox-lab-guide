@@ -148,15 +148,21 @@ It should look like this.
 image::images/vscode-new-network-example.png[]
 
 
+In order to pass credentials to NIOS, we define a dictionary called `nios_provider`.  In Tower, we pass the NIOS url, username, and password to our playbook from the `nios creds` credentials and `nios` inventory extra vars.
+
+[source,yaml]
+nios_provider:
+      host: "{{ nios_grid_url }}"
+      username: "{{ nios_grid_username }}"
+      password: "{{ nios_grid_password }}"
+
+
 Next, take note of the `collections/requirements.yml` file. This file will be used by Tower to download the infoblox.nios_modules collection. Be sure to include this file in any projects you create.
 
 [source,yaml]
 
 collections:
   - infoblox.nios_modules
-
-
-NOTE: For reference, the repo is link:https://github.com/gejames/infoblox-lab-guide[here]
 
 Next, we can put the pieces together and add our playbook to Tower as a new Project and Job Template.
 
