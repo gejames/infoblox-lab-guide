@@ -190,7 +190,7 @@ Next, go to Resources/Templates, and click on image:images/tower-plus.png[] to c
 5. Playbook: new_network.yml
 6. Credentials: nios creds.  
 
-Save your project by cliking the Save button.
+Save your project by clicking the Save button.
 
 image::images\tower-job-template.png[]
 
@@ -201,7 +201,7 @@ WARNING: To pick `nios creds` you must first change the Credential Type to NIOS 
 ---
 Press the Launch button to start your job.
 
-First, The playbook will reach out to NIOS and ask for the next available network in the defined parent container. `cidr` is a variable that defines what size subnet we want the container to be.  Due to the way cidr notation works, this number must be larger than the container cidr.  In this case the parent container is a /8 and we are asking for a /16. 
+First, the playbook will reach out to NIOS and ask for the next available network in the defined parent container. The `cidr` variable defines what size subnet we want the container to be.  Due to the way cidr notation works, this number must be larger than the container cidr.  In this case the parent container is a /8 and we are asking for a /16. 
 
 [source,yaml]
 
@@ -209,10 +209,10 @@ vars:
    parent_container: 10.0.0.0/8
    cidr: 16
 
-[source,yaml]  
 - name: return next available network
       set_fact:
         networkaddr: "{{ lookup('infoblox.nios_modules.nios_next_network', parent_container, cidr=cidr, provider=nios_provider) }}"
+---
 
 The next available network will be returned in cidr notation, for example, 10.0.0.0/16
 
