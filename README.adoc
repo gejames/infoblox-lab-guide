@@ -157,7 +157,8 @@ It should look like this.
 
 image::images/vscode-new-network-example.png[]
 
-Next, take note of the `collections/requirements.yml` file. This file will be used be Tower to download the infoblox.nios_modules collection. Be sure to include this file in any projects you create.
+
+Next, take note of the `collections/requirements.yml` file. This file will be used by Tower to download the infoblox.nios_modules collection. Be sure to include this file in any projects you create.
 
 [source,yaml]
 
@@ -173,7 +174,7 @@ Log back into Tower and navigate to Resources/Projects.  Click on the image:imag
 
 1. Give your project a name. NIOS Lab
 2. For SCM Type, use Git
-3. Paste in the URL for your repo. https://github.com/gejames/infoblox-lab-guide.git
+3. Paste in the url for your repo. https://github.com/gejames/infoblox-lab-guide.git
 4. Use /var/lib/awx/venv/nios for your ansible environment. This will become the Default for any jobs we create with this project.
 5. Save your project.
 
@@ -184,7 +185,7 @@ Next, go to Resources/Templates, and click on image:images/tower-plus.png[] to c
 
 1. Name your new job
 2. Job type is Run
-3. inventory: nios
+3. Inventory: nios
 4. Project: NIOS Lab
 5. Playbook: new_network.yml
 6. Credentials: nios creds.  
