@@ -236,9 +236,9 @@ image::images\infoblox-grid-example.png[]
 
 ___
 
-== conclusion and next steps
+== Conclusion and next steps
 
-Red Hat Ansible Automation Platform and Infoblox NIOS are key components in any automation journey.  This lab can be used to showcase DDI automation or as a sandbox to learn automating with NIOS and Ansible. Having completed the lab guide, you should now be able to create your own playbooks and integrate NIOS into your ansible automation projects.
+Red Hat Ansible Automation Platform and Infoblox NIOS are key components in any automation journey.  This lab can be used to showcase DDI automation or as a sandbox to learn automation with NIOS and Ansible. Having completed the lab guide, you should now be able to create your own playbooks and integrate NIOS into your ansible automation projects.
 
 Happy Automating!
 
