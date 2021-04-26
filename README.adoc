@@ -141,7 +141,7 @@ TIP: You can create your own git repo instead of using the sample repo.
 
 In the vscode terminal,  clone the repo.
 
-CAUTION: Be sure to update the playbook with the correct url if you created your own repo.
+CAUTION: Be sure to use the correct url if you created your own repo.
 
 [source,shell]
 ----
@@ -201,9 +201,8 @@ Next, go to Resources/Templates, and click on image:images/tower-plus.png[] to c
 . Inventory: nios
 . Project: NIOS Lab
 . Playbook: new_network.yml
-. Credentials: nios creds.  
-
-Save your project by clicking the Save button.
+. Credentials: nios creds
+. Save your project 
 
 image::images\tower-job-template.png[]
 
