@@ -57,7 +57,7 @@ Close the Grid Setup Wizard
 image::images/infoblox-grid-wizard.png[]
 ---
 
-=== vscode
+=== VSCODE
 
 vscode is an easy-to-learn code editor.  It has support for many extensions, including Ansible code highlighting. This makes debugging Ansible much easier.  
 
@@ -92,7 +92,7 @@ image::images/tower-login.png[]
 ---
 Once logged in, use the left-hand navigation pane to select Administration, then Custom Credentials.  Then choose NIOS Custom Credentials
 
-This Custom Credential allows us to pass `nios_grid_username` and `nios_grid_password` to our playbooks as extra vars.  This will be covered in more depth later in the guide.
+This Custom Credential allows us to pass `nios_grid_username` and `nios_grid_password` to our playbooks as extra vars.  This will be covered more in-depth later in the guide.
 
 For now, just be aware that these variables are defined in the custom credential
 
@@ -195,7 +195,7 @@ image::images\tower-job-template.png[]
 
 
 
-WARNING: To pick `nios creds` you must first change the Credential Type to NIOS Custom Credentials. image:images\tower-job-cred-type.png[]
+WARNING: To pick `nios creds` you must first change the Credential Type to NIOS Custom Credentials. 
 
 ---
 Press the Launch button to start your job.
