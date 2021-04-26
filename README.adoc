@@ -100,6 +100,8 @@ image::images/tower-creds.png[]
 ---
 Finally, navigate to `Resources`, `Inventory`, then `nios`.  This inventory is pre-populated with several important variables. We will use this for our inventory for any jobs we create so the variables are automatically passed to our playbooks.
 
+image::images/tower-inventory.png[]
+
 [options="header,footer"]
 |=======================
 |Variable           |Definition 
@@ -108,9 +110,6 @@ Finally, navigate to `Resources`, `Inventory`, then `nios`.  This inventory is p
 |nios_grid_url      |public url used for API calls 
 |nios_grid_ip       |private IP of the NIOS server 
 |=======================
-
-
-image::images/tower-inventory.png[]
 
 == NIOS Primer
 
