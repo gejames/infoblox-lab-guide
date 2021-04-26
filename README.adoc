@@ -120,7 +120,7 @@ For instance, many organizations use RFC1918 IP addresses for their internal IP 
 
 NIOS is configured via an API. In order for our bastion and Tower to communicate with this API, we need the `infoblox-client` python library installed. To avoid python incompatibility issues, this has been done for you in a python virtual environment.  In Tower, we'll use this python environment for all our jobs. This will be covered later. 
 
-WARNING: You must run the following command in the terminal to activate the python virtual environment on the bastion:  
+IMPORTANT: You must run the following command in the terminal to activate the python virtual environment on the bastion:  
  `source /var/lib/awx/venv/nios/bin/activate`
 
 
