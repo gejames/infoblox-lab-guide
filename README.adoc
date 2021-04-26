@@ -196,7 +196,7 @@ Save your project by clicking the Save button.
 
 image::images\tower-job-template.png[]
 
-
+---
 
 WARNING: To pick `nios creds` you must first change the `Credential Type` to `NIOS Custom Credentials`. 
 
