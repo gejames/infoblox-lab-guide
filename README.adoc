@@ -233,3 +233,7 @@ ___
 Navigate back to Infoblox NIOS.  On the Data Management tab, you should see the new container.
 
 image::images\infoblox-grid-example.png[]
+
+___
+
+You should now be able to create your own ansible projects with Infoblox NIOS.  
