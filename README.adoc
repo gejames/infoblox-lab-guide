@@ -187,7 +187,8 @@ Log back into Tower and navigate to Resources/Projects.  Click on the image:imag
 . Give your project a name. NIOS Lab
 . For SCM Type, use Git
 . Paste in the url for your repo. https://github.com/gejames/infoblox-lab-guide.git
-. Use /var/lib/awx/venv/nios for your ansible environment. This will become the Default for any jobs we create with this project.
+. Use /var/lib/awx/venv/nios for your ansible environment
+.. This will become the Default for any jobs we create with this project.
 . Save your project.
 
 image::images\tower-new-project.png[]
