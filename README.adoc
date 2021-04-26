@@ -75,7 +75,7 @@ image::images/vscode-new-terminal.png[]
 ---
 === Ansible Tower 3.8
 
-Ansible Tower is a powerful WEB UI for Ansible.  It provides role-based access control, scheduling, centralized logging of jobs, and many other benefits.
+Ansible Tower is a powerful web UI for Ansible.  It provides role-based access control, scheduling, centralized logging of jobs, and many other benefits.
 
 Tower is pre-populated with several assets you will need to run jobs with NIOS.  Let's login to Tower and review before we start our first project.
 
@@ -209,7 +209,7 @@ image::images\tower-job-template.png[]
 
 ---
 
-IMPORTANT: To pick `nios creds` you must first change the `Credential Type` to `NIOS Custom Credentials`. 
+IMPORTANT: To pick `nios creds` you must first change the `Credential Type` to `NIOS Custom Credentials` when slecting the credential. 
 
 ---
 Press the Launch button to start your job.
