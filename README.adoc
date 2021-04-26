@@ -3,15 +3,14 @@
 
 Infoblox NIOS is the leading enterprise DNS, DHCP, IPAM (DDI) solution.  This guide will use the Ansible Infoblox NIOS Lab in RHDPS to demonstrate the automation of IP Administration with NIOS and the Red Hat Ansible Automation Platform.
 
-TIP: For a thorough description of lab environment, please refer to the AgnosticD config link:https://github.com/redhat-cop/agnosticd/tree/development/ansible/configs/ansible-infoblox[README]
+TIP: For a thorough description of the lab environment, please refer to the AgnosticD config link:https://github.com/redhat-cop/agnosticd/tree/development/ansible/configs/ansible-infoblox[README]
 
 TIP: A video overivew  of the lab environment is available on link:https://www.youtube.com/watch?v=86qaaHzw01Y[Youtube]
 
 == Prerequisites
 
 * Ability to deploy labs in the Red Hat Product Demo System (RHPDS)
-* A git repo, such as github or gitlab, you can use to store your code.
-* A general understanding of IPv4 subnetting is helpful, but not required to complete the lab.
+* A general understanding of IPv4 subnetting is helpful, but not required to complete the lab
 * Familiarity with Tower and Ansible are helpful
 
 == Topics covered
@@ -25,7 +24,7 @@ TIP: A video overivew  of the lab environment is available on link:https://www.y
 
 == Lab Overview
 
-This lab is deployed in RHDPS by the user or a lab instructor.  Once deployed, you will recieve login credentials for each host in the lab.  Each host can be accessed via a URL and has HTTPS and SSH open to the Intneret.  For this guide, we will be accessing the hosts by HTTPS. We'll start by logging into each host to verify connectivity and understand the lab environment.
+This lab is deployed in RHDPS by the user or a lab instructor.  Once deployed, you will recieve login credentials for each host in the lab.  Each host can be accessed via a URL and has https and ssh open to the Intneret.  For this guide, we will be accessing the hosts by https. We'll start by logging into each host to verify connectivity and understand the lab environment.
 
 === Lab Hosts:
 
@@ -35,10 +34,10 @@ This lab is deployed in RHDPS by the user or a lab instructor.  Once deployed, y
 
 ==== NIOS Initial Login
 
-The lab deploys NIOS with several temporary licenses.  On initial login, you will need to accept a EULA, Opt in/out of a customer experience program, and finally, close out a Grid Setup Wizard.  
+The lab deploys NIOS with several temporary licenses.  On initial login, you will need to accept a EULA, opt in/out of a customer experience program, and finally, close out a Grid Setup Wizard.  
 
 ---
-Login to NIOS
+Login to NIOS by opening the url providing by the lab deployment.
 
 image::images/infoblox-grid-login.png[]
 
@@ -82,9 +81,9 @@ image::images/vscode-new-terminal.png[]
 === Ansible Tower 3.8
 ---
 
-Ansible Tower is a powerful WEB UI for Ansible.  It provides RBAC, Scheduling, centralized logging of jobs, and many other benefits.
+Ansible Tower is a powerful WEB UI for Ansible.  It provides role-based access control, scheduling, centralized logging of jobs, and many other benefits.
 
-The lab pre-populatd Tower with several assets you will need to run jobs with NIOS.  Let's login to Tower and review before we start our first project.
+Tower is pre-populatd with several assets you will need to run jobs with NIOS.  Let's login to Tower and review before we start our first project.
 
 Login to Tower
 
@@ -144,7 +143,7 @@ TIP: You can create your own git repo instead of using the sample repo.
 
 In the vscode terminal,  clone the repo.
 
-WARNING: Be sure to update the url with the correct URL if you created your own repo.
+WARNING: Be sure to update the playbook with the correct url if you created your own repo.
 
 [source,shell]
 ----
@@ -152,7 +151,7 @@ $ git clone https://github.com/gejames/nioslab.git
 $ cd nioslab/
 ----
 
-In the file explorer window in vscode, click on the net_network.yml file.  
+In the file explorer window in vscode, click on the new_network.yml file.  
 
 It should look like this.
 
@@ -183,13 +182,13 @@ Log back into Tower and navigate to Resources/Projects.  Click on the image:imag
 image::images\tower-new-project.png[]
 
 
-Next, go to Resources/Templates, and click on image:images/tower-plus.png[] to create a new Job Template
+Next, go to Resources/Templates, and click on image:images/tower-plus.png[] to create a new Job Template.
 
 1. Name your new job
 2. Job type is Run
 3. inventorry: nios
 4. Project: NIOS Lab
-5. Playbook: new_network.yml
+5. Playbook: new_container.yml
 6. Credentials: nios creds.  
 
 Save your project by cliking the Save button.
@@ -202,7 +201,6 @@ WARNING: To pick `nios creds` you must first change the Credential Type to NIOS 
 
 ---
 Press the Launch button to start your job.
-
 
 First, The playbook will reach out to NIOS and ask for the next available network in the defined parent container. cidr is a variable that defines what size subnet we want the container to be.  Due to the way cidr notiation works, this number must be larger then the container cidr.  In thise case the parent container is a /8 and we are asking for a /16. 
 
@@ -219,7 +217,7 @@ vars:
 
 The next available network will be returned in cidr notation, for example 10.0.0.0/16
 
-Then, it  will use the `infoblox.nios_modules.nios_network` module to creat that container.
+The playbook will then use the `infoblox.nios_modules.nios_network` module to creat that container.
 
 [source,yaml]
  - name: configure a network container in nios
@@ -230,7 +228,7 @@ Then, it  will use the `infoblox.nios_modules.nios_network` module to creat that
         state: present
         provider: "{{ nios_provider }}"
 
+Now that we know how to create a new container in NIOS with Ansible, let's give that ability to a junior admin. They aren't entrusted with the keys to the kingdom yet, so we'll put some constraints around them and allow them to create new NIOS containers or networks through a Tower survey.
 
-Login back into NIOS to verify the changes.
-
-
+We can add a survey to our existing job. We just need to change the playbook in our job from new_network.yml to 
+ 

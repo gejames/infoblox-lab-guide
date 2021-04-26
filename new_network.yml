@@ -1,0 +1,34 @@
+---
+- name: configure nios for lab
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  become: false
+
+  collections:
+    - infoblox.nios_modules
+
+  vars:
+    parent_container: 10.0.0.0/8
+    cidr: 16
+    nios_container: true
+    nios_state: present
+    nios_comment: "Created by Ansible NIOS Lab deployment"
+    nios_provider:
+      host: "{{ nios_grid_url }}"
+      username: "{{ nios_grid_username }}"
+      password: "{{ nios_grid_password }}"
+  
+  tasks: 
+  
+    - name: return next available network
+      set_fact:
+        networkaddr: "{{ lookup('infoblox.nios_modules.nios_next_network', parent_container, cidr=cidr, provider=nios_provider) }}"
+
+    - name: configure a network container in nios
+      infoblox.nios_modules.nios_network:
+        network: "{{ networkaddr[0] }}"
+        container: " {{ nios_container }}"
+        comment: "{{ nios_comment }]"
+        state: "{{ nios_state }}"
+        provider: "{{ nios_provider }}"
