@@ -54,6 +54,8 @@ image::images/infoblox-grid-wizard.png[]
 
 vscode is an easy-to-learn code editor.  It has support for many extensions, including Ansible code highlighting. This makes debugging Ansible much easier.  
 
+---
+
 First, login to vscode with the provided credentials
 
 image::images/vscode-login.png[]
@@ -66,7 +68,7 @@ image::images/vscode-open-folder1.png[]
 image::images/vscode-open-folder2.png[]
 
 ---
-We can open a Terminal right in vscode. On the toolbar, go to Terminal, New Terminal. You can use this terminal to test playbooks before running them in Tower.
+We can open a Terminal right in vscode. On the toolbar, go to `Terminal`,`New Terminal`. You can use this terminal to test playbooks before running them in Tower.
 
 image::images/vscode-new-terminal.png[]
 
