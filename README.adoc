@@ -228,11 +228,8 @@ The playbook will then use the `infoblox.nios_modules.nios_network` module to cr
         state: present
         provider: "{{ nios_provider }}"
 
-Now that we know how to create a new container in NIOS with Ansible, let's give that ability to a junior admin. They aren't trusted with the keys to the kingdom yet, so we'll put some constraints around them and allow them to create new NIOS containers or network through a Tower survey.
+___
 
-Add a survey to your exsting job.  An example survey is shown below.
+Navigate back to Infoblox NIOS.  On the Data Management tab, you should see the new container.
 
-image::images\tower-survey.png[]
-
-
- 
+image::images\infoblox-grid-example.png[]
