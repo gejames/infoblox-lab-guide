@@ -164,7 +164,9 @@ Next, take note of the `collections/requirements.yml` file. This file will be us
 collections:
   - infoblox.nios_modules
 
-Next, we can put the pieces together and add our playbook to Tower as a new Project and Job Template.
+___
+
+Now we can put the pieces together and add our playbook to Tower as a new Project and Job Template.
 
 Log back into Tower and navigate to Resources/Projects.  Click on the image:images/tower-plus.png[] symbol to create a new Project
 
