@@ -90,7 +90,7 @@ Login to Tower
 image::images/tower-login.png[]
 
 ---
-Once logged in, use the left-hand navigation pane to select Administration, then Custom Credentials.  Then choose NIOS Custom Credentials
+Once logged in, use the left-hand navigation pane to select `Administration`, then `Custom Credentials`.  Then choose `NIOS Custom Credentials`.
 
 This Custom Credential allows us to pass `nios_grid_username` and `nios_grid_password` to our playbooks as extra vars.  This will be covered more in-depth later in the guide.
 
@@ -99,12 +99,12 @@ For now, just be aware that these variables are defined in the custom credential
 image::images/tower-custom-creds.png[] 
 
 ---
-Next, navigate to Resources, Credentials, then `nios creds`.  This is a credential of type `NIOS Custom Credentials` that has the NIOS username and password already defined. We'll use this as our credential in any Job Templates we create.
+Next, navigate to `Resources`, `Credentials`, then `nios creds`.  This is a credential of type `NIOS Custom Credentials` that has the NIOS username and password already defined. We'll use this as our credential in any jobs we create.
 
 image::images/tower-creds.png[]
 
 ---
-Finally, navigate to Resources, Inventory, then `nios`.  This inventory is pre-populated with several important variables. We will use this for our inventory for any jobs we create so the variables are automatically passed to our playbooks.
+Finally, navigate to `Resources`, `Inventory`, then `nios`.  This inventory is pre-populated with several important variables. We will use this for our inventory for any jobs we create so the variables are automatically passed to our playbooks.
 
 [options="header,footer"]
 |=======================
