@@ -6,9 +6,13 @@
 
 Infoblox NIOS is the leading enterprise DNS, DHCP, IPAM (DDI) solution.  This guide will use the `Ansible 2.9 Infoblox NIOS 8.5.1 Lab` in RHDPS to demonstrate the automation of IP Administration with NIOS and the Red Hat Ansible Automation Platform.
 
+---
+
 TIP: For a thorough description of the lab environment, please refer to the AgnosticD config link:https://github.com/redhat-cop/agnosticd/tree/development/ansible/configs/ansible-infoblox[README]
 
 TIP: A video overview of the lab environment is available on link:https://www.youtube.com/watch?v=86qaaHzw01Y[Youtube]
+
+---
 
 == Prerequisites
 
@@ -161,7 +165,10 @@ nios_provider:
 
 Next, take note of the `collections/requirements.yml` file. This file will be used by Tower to download the infoblox.nios_modules collection. 
 
+---
 WARNING: Be sure to include this file in any projects you create.
+
+---
 
 [source,yaml]
 
