@@ -29,6 +29,6 @@
       infoblox.nios_modules.nios_network:
         network: "{{ networkaddr[0] }}"
         container: " {{ nios_container }}"
-        comment: "{{ nios_comment }]"
+        comment: "{{ nios_comment }}"
         state: "{{ nios_state }}"
         provider: "{{ nios_provider }}"
