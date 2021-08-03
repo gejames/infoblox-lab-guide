@@ -12,6 +12,10 @@
       host_ip: 10.100.1.10
       comment: Created with Ansible
       state: present
+    nios_provider:
+      host: "{{ nios_grid_url }}"
+      username: "{{ nios_grid_username }}"
+      password: "{{ nios_grid_password }}"
 
   tasks:
     
