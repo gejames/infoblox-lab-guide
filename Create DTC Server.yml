@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  connection: localhost
+  gather_facts: false
+
+  collections:
+    - infoblox.nios_modules
+
+  vars: 
+    dtc:
+      server_name: SERVER1
+      host_ip: 10.100.1.10
+      comment: Created with Ansible
+      state: present
+
+  tasks:
+    
+    - name: Create DTC Server
+      infoblox.nios_modules.nios_dtc_server:
+        name: "{{ dtc.server_name }}"
+        host: "{{ dtc.host_ip }}"
+        comment: "{{ dtc.comment }}"
+        state: "{{ dtc.state }}"
+        provider: "{{ nios_provider }}"
