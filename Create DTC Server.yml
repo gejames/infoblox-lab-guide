@@ -1,6 +1,6 @@
 ---
 - hosts: localhost
-  connection: localhost
+  connection: local
   gather_facts: false
 
   collections:
