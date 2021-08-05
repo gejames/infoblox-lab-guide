@@ -1,0 +1,32 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+
+  collections:
+    - infoblox.nios_modules
+
+  vars: 
+    dtc:
+      server_name: example.com
+      pool_name: Pool1
+      lb_method: ROUND_ROBIN
+      host_ip: 10.100.1.10
+      comment: Created with Ansible
+      state: present
+    nios_provider:
+      host: "{{ nios_grid_url }}"
+      username: "{{ nios_grid_username }}"
+      password: "{{ nios_grid_password }}"
+
+  tasks:
+    
+    - name: Create DTC Pool
+      infoblox.nios_modules.nios_dtc_pool:
+        name: "{{ dtc.pool_name }}"
+        lb_prefered_mathod: "{{ dtc.lb_method }}"
+        servers:
+          - server: "a.{{ dtc.server_name }}"
+          - server: "b.{{ dtc.server_name }}"
+        state: "{{ dtc.state }}"
+        provider: "{{ nios_provider }}"
